@@ -63,6 +63,13 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     // endregion
 
+    // region Mockk
+    testImplementation("io.mockk:mockk-android:1.13.8")
+    testImplementation("io.mockk:mockk-agent:1.13.8")
+    androidTestImplementation("io.mockk:mockk-android:1.13.8")
+    androidTestImplementation("io.mockk:mockk-agent:1.13.8")
+    // endregion
+
     // region Compose
     implementation("androidx.activity:activity-compose:1.8.0")
     implementation(platform("androidx.compose:compose-bom:2023.03.00"))

@@ -52,22 +52,29 @@ android {
 }
 
 dependencies {
-
+    // region Androidx
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    // endregion
+
+    // region Junit
+    testImplementation("junit:junit:4.13.2")
+    // endregion
+
+    // region Compose
     implementation("androidx.activity:activity-compose:1.8.0")
     implementation(platform("androidx.compose:compose-bom:2023.03.00"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     androidTestImplementation(platform("androidx.compose:compose-bom:2023.03.00"))
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+    // endregion
 
     // region Dagger Hilt
     implementation("com.google.dagger:hilt-android:2.44.1")
@@ -81,5 +88,10 @@ dependencies {
     implementation("org.orbit-mvi:orbit-core:6.1.0")
     implementation("org.orbit-mvi:orbit-viewmodel:6.1.0")
     testImplementation("org.orbit-mvi:orbit-test:6.1.0")
+    // endregion
+
+    // region Coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.10")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.10")
     // endregion
 }

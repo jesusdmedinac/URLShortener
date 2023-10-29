@@ -76,4 +76,10 @@ dependencies {
     androidTestImplementation("com.google.dagger:hilt-android-testing:2.44.1")
     kaptAndroidTest("com.google.dagger:hilt-compiler:2.44.1")
     // endregion
+
+    // region Orbit MVI
+    implementation("org.orbit-mvi:orbit-core:6.1.0")
+    implementation("org.orbit-mvi:orbit-viewmodel:6.1.0")
+    testImplementation("org.orbit-mvi:orbit-test:6.1.0")
+    // endregion
 }

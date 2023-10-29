@@ -101,4 +101,12 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.10")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.10")
     // endregion
+
+    // region Ktor
+    implementation("io.ktor:ktor-client-core:2.3.5")
+    implementation("io.ktor:ktor-client-cio:2.3.5")
+    implementation("io.ktor:ktor-client-content-negotiation:2.3.5")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.5")
+    implementation("io.ktor:ktor-client-mock:2.3.5")
+    // endregion
 }

@@ -1,6 +1,6 @@
-package com.jesusdmedinac.urlshortener.data.local.model
+package com.jesusdmedinac.urlshortener.domain.model
 
-data class ShortenedUrl(
+data class ShortenedURL(
     val alias: String,
     val links: Links,
 )

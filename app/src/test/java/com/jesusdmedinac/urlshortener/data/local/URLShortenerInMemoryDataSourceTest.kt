@@ -1,6 +1,6 @@
 package com.jesusdmedinac.urlshortener.data.local
 
-import com.jesusdmedinac.urlshortener.data.local.model.ShortenedUrl
+import com.jesusdmedinac.urlshortener.data.local.model.ShortenedURL
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.first
@@ -12,7 +12,7 @@ import org.junit.Test
 
 class URLShortenerInMemoryDataSourceTest {
     @MockK
-    private lateinit var shortenedUrl: ShortenedUrl
+    private lateinit var shortenedUrl: ShortenedURL
 
     private lateinit var urlShortenerInMemoryDataSource: URLShortenerInMemoryDataSource
 
@@ -23,13 +23,13 @@ class URLShortenerInMemoryDataSourceTest {
     }
 
     @Test
-    fun `getShortenedUrlHistory should return expectedShortenedUrlHistory given saveShortenedUrl was called with URLToShorten`() =
+    fun `getShortenedURLHistory should return expectedShortenedURLHistory given saveShortenedURL was called with URLToShorten`() =
         runTest {
             // Given
-            urlShortenerInMemoryDataSource.saveShortenedUrl(shortenedUrl)
+            urlShortenerInMemoryDataSource.saveShortenedURL(shortenedUrl)
 
             // When
-            val result = urlShortenerInMemoryDataSource.getShortenedUrlHistory()
+            val result = urlShortenerInMemoryDataSource.getShortenedURLHistory()
                 .first()
                 .first()
 

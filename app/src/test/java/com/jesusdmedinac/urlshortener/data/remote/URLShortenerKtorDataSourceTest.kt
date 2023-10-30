@@ -1,7 +1,7 @@
 package com.jesusdmedinac.urlshortener.data.remote
 
 import com.jesusdmedinac.urlshortener.data.remote.model.Links
-import com.jesusdmedinac.urlshortener.data.remote.model.ShortenedUrl
+import com.jesusdmedinac.urlshortener.data.remote.model.ShortenedURL
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.respond
@@ -22,7 +22,7 @@ class URLShortenerKtorDataSourceTest {
     private lateinit var urlShortenerKtorDataSource: URLShortenerKtorDataSource
 
     @Test
-    fun `shortenUrl should return expectedShortenedUrl given httpResponse returns expectedResponse`() =
+    fun `shortenUrl should return expectedShortenedURL given httpResponse returns expectedResponse`() =
         runTest {
             // Given
             val expectedOriginalLink = Random.nextInt().toString()
@@ -64,13 +64,13 @@ class URLShortenerKtorDataSourceTest {
             val result = urlShortenerKtorDataSource.shortenUrl(expectedOriginalLink)
 
             // Then
-            val expectedShortenedUrl = ShortenedUrl(
+            val expectedShortenedURL = ShortenedURL(
                 alias = expectedAlias,
                 _links = Links(
                     self = expectedOriginalLink,
                     short = expectedShort,
                 ),
             )
-            assertThat(result, `is`(expectedShortenedUrl))
+            assertThat(result, `is`(expectedShortenedURL))
         }
 }

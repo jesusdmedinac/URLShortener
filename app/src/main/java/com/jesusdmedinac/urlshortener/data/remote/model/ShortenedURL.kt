@@ -3,7 +3,7 @@ package com.jesusdmedinac.urlshortener.data.remote.model
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ShortenedUrl(
+data class ShortenedURL(
     val alias: String,
     val _links: Links,
 )

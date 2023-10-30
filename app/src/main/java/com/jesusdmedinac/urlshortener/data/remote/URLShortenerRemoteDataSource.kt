@@ -1,6 +1,6 @@
 package com.jesusdmedinac.urlshortener.data.remote
 
-import com.jesusdmedinac.urlshortener.data.remote.model.ShortenedUrl
+import com.jesusdmedinac.urlshortener.data.remote.model.ShortenedURL
 import com.jesusdmedinac.urlshortener.data.remote.model.URLToShorten
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -10,13 +10,13 @@ import io.ktor.http.ContentType
 import io.ktor.http.contentType
 
 interface URLShortenerRemoteDataSource {
-    suspend fun shortenUrl(link: String): ShortenedUrl
+    suspend fun shortenUrl(link: String): ShortenedURL
 }
 
 class URLShortenerKtorDataSource(
     private val httpClient: HttpClient,
 ) : URLShortenerRemoteDataSource {
-    override suspend fun shortenUrl(link: String): ShortenedUrl = httpClient
+    override suspend fun shortenUrl(link: String): ShortenedURL = httpClient
         .post(
             urlString = API_LINK_SHORTEN_URL,
             block = {

@@ -10,17 +10,20 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
+import javax.inject.Named
 
 interface URLShortenerRepository {
     suspend fun shortenUrl(urlToShorten: String)
     suspend fun getShortenedURLHistory(): Flow<List<ShortenedURL>>
 }
 
-class URLShortenerRepositoryImpl(
+class URLShortenerRepositoryImpl @Inject constructor(
     private val urlShortenerLocalDataSource: URLShortenerLocalDataSource,
     private val urlShortenerRemoteDataSource: URLShortenerRemoteDataSource,
     private val remoteShortenedURLToLocalShortenedURLMapper: RemoteShortenedURLToLocalShortenedURLMapper,
     private val localShortenedURLToDomainShortenedURLMapper: LocalShortenedURLToDomainShortenedURLMapper,
+    @Named("io-dispatcher")
     private val coroutineDispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : URLShortenerRepository {
     override suspend fun shortenUrl(urlToShorten: String) {

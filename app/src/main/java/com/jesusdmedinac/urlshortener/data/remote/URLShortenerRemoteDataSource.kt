@@ -8,12 +8,13 @@ import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
+import javax.inject.Inject
 
 interface URLShortenerRemoteDataSource {
     suspend fun shortenUrl(link: String): ShortenedURL
 }
 
-class URLShortenerKtorDataSource(
+class URLShortenerKtorDataSource @Inject constructor(
     private val httpClient: HttpClient,
 ) : URLShortenerRemoteDataSource {
     override suspend fun shortenUrl(link: String): ShortenedURL = httpClient

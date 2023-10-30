@@ -11,8 +11,11 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.runs
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.TestDispatcher
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.Is.`is`
@@ -23,6 +26,7 @@ import com.jesusdmedinac.urlshortener.data.local.model.ShortenedURL as LocalShor
 import com.jesusdmedinac.urlshortener.data.remote.model.ShortenedURL as RemoteShortenedURL
 import com.jesusdmedinac.urlshortener.domain.model.ShortenedURL as DomainShortenedURL
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class URLShortenerRepositoryImplTest {
     @MockK
     private lateinit var urlShortenerLocalDataSource: URLShortenerLocalDataSource
@@ -47,14 +51,18 @@ class URLShortenerRepositoryImplTest {
     @MockK
     private lateinit var localShortenedURL: LocalShortenedURL
 
+    private lateinit var coroutineDispatcher: TestDispatcher
+
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
+        coroutineDispatcher = UnconfinedTestDispatcher()
         urlShortenerRepositoryImpl = URLShortenerRepositoryImpl(
             urlShortenerLocalDataSource,
             urlShortenerRemoteDataSource,
             remoteShortenedURLToLocalShortenedURLMapper,
             localShortenedURLToDomainShortenedURLMapper,
+            coroutineDispatcher,
         )
     }
 
@@ -79,7 +87,6 @@ class URLShortenerRepositoryImplTest {
     @Test
     fun `getShortenedURLHistory should return localShortenedURL`() = runTest {
         // Given
-        val expectedShortenedURLs = listOf(domainShortenedURL)
         coEvery { urlShortenerLocalDataSource.getShortenedURLHistory() } returns flowOf(
             listOf(
                 localShortenedURL,

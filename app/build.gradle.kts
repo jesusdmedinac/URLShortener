@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.6.21"
 }
 
 android {
@@ -98,8 +99,8 @@ dependencies {
     // endregion
 
     // region Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.10")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.10")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
     // endregion
 
     // region Ktor

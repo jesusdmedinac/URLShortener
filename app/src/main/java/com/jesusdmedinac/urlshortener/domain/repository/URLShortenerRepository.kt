@@ -36,7 +36,8 @@ class URLShortenerRepositoryImpl @Inject constructor(
 
     override suspend fun getShortenedURLHistory(): Flow<List<ShortenedURL>> =
         withContext(coroutineDispatcher) {
-            urlShortenerLocalDataSource.getShortenedURLHistory()
+            urlShortenerLocalDataSource
+                .getShortenedURLHistory()
                 .map { shortenedURLHistory ->
                     shortenedURLHistory.map(
                         localShortenedURLToDomainShortenedURLMapper::map,

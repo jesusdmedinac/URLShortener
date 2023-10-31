@@ -17,7 +17,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.jesusdmedinac.urlshortener.di.CustomTestRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -47,7 +47,14 @@ android {
     }
     packaging {
         resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "META-INF/*"
+        }
+    }
+    testOptions {
+        packaging {
+            jniLibs {
+                useLegacyPackaging = true
+            }
         }
     }
 }
@@ -73,6 +80,7 @@ dependencies {
 
     // region Compose
     implementation("androidx.activity:activity-compose:1.8.0")
+    implementation("androidx.navigation:navigation-compose:2.7.4")
     implementation(platform("androidx.compose:compose-bom:2023.03.00"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
@@ -87,6 +95,7 @@ dependencies {
     // region Dagger Hilt
     implementation("com.google.dagger:hilt-android:2.44.1")
     kapt("com.google.dagger:hilt-compiler:2.44.1")
+    kaptTest("com.google.dagger:hilt-compiler:2.44.1")
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
     androidTestImplementation("com.google.dagger:hilt-android-testing:2.44.1")
     kaptAndroidTest("com.google.dagger:hilt-compiler:2.44.1")

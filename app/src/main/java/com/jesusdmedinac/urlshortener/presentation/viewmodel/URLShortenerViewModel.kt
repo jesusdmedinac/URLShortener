@@ -44,7 +44,9 @@ data class URLShortenerState(
     val shortenedURLHistory: List<ShortenedURL> = emptyList(),
 )
 
-sealed class URLShortenerSideEffect
+sealed class URLShortenerSideEffect {
+    object Idle : URLShortenerSideEffect()
+}
 
 interface URLShortenerIntents {
     fun shortenURL(urlToShorten: String): Job

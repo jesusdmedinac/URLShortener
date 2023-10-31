@@ -5,10 +5,7 @@ import com.jesusdmedinac.urlshortener.domain.usecase.GetShortenedURLHistoryUseCa
 import com.jesusdmedinac.urlshortener.domain.usecase.ShortenURLUseCase
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
-import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
-import io.mockk.just
-import io.mockk.runs
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
@@ -38,20 +35,44 @@ class URLShortenerViewModelTest {
     }
 
     @Test
-    fun `shortenURL should call invoke from shortenURLUseCase`() = runTest {
-        // Given
-        val urlToShorten = Random.nextInt().toString()
-        coEvery { shortenURLUseCase(urlToShorten) } just runs
-        urlShortenerViewModel.test(this, URLShortenerState()) {
-            expectInitialState()
+    fun `shortenURL should reduce URLShortenerState with error given invoke from shortenURLUseCase returns error`() =
+        runTest {
+            // Given
+            val urlToShorten = Random.nextInt().toString()
+            val error = Throwable()
+            coEvery { shortenURLUseCase(urlToShorten) } returns Result.failure(error)
+            urlShortenerViewModel.test(this, URLShortenerState()) {
+                expectInitialState()
 
-            // When
-            containerHost.shortenURL(urlToShorten).join()
+                // When
+                containerHost.shortenURL(urlToShorten).join()
 
-            // Then
-            coVerify { shortenURLUseCase(urlToShorten) }
+                // Then
+                expectState { copy(error = error) }
+            }
         }
-    }
+
+    @Test
+    fun `shortenURL should reduce URLShortenerState with no error given invoke from shortenURLUseCase returns error and then success`() =
+        runTest {
+            // Given
+            val urlToShorten = Random.nextInt().toString()
+            val error = Throwable()
+            coEvery { shortenURLUseCase(urlToShorten) } returns Result.failure(error) andThen Result.success(
+                Unit,
+            )
+            urlShortenerViewModel.test(this, URLShortenerState()) {
+                expectInitialState()
+                containerHost.shortenURL(urlToShorten).join()
+
+                // When
+                containerHost.shortenURL(urlToShorten).join()
+
+                // Then
+                expectState { copy(error = error) }
+                expectState { copy(error = null) }
+            }
+        }
 
     @Test
     fun `getShortenedURLHistory should reduce URLShortenerState with shortenedURLHistory given invoke from getShortenedURLHistoryUseCase returns shortenedURLHistory`() =
@@ -67,6 +88,22 @@ class URLShortenerViewModelTest {
 
                 // Then
                 expectState { copy(shortenedURLHistory = shortenedURLHistory) }
+            }
+        }
+
+    @Test
+    fun `onShortenedURLClicked should call onShortenedURLClicked from URLShortenerIntents`() =
+        runTest {
+            // Given
+            urlShortenerViewModel.test(this, URLShortenerState()) {
+                expectInitialState()
+
+                // When
+                containerHost.onShortenedURLClicked(shortenedURL)
+
+                // Then
+                expectSideEffect(URLShortenerSideEffect.OnShortenedURLClicked(shortenedURL))
+                expectSideEffect(URLShortenerSideEffect.Idle)
             }
         }
 }

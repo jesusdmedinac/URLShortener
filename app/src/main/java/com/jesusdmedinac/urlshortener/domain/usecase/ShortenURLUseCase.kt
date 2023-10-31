@@ -10,14 +10,13 @@ interface ShortenURLUseCase {
 class ShortenURLUseCaseImpl @Inject constructor(
     private val urlShortenerRepository: URLShortenerRepository,
 ) : ShortenURLUseCase {
-    override suspend fun invoke(urlToShorten: String): Result<Unit> {
-        return if (urlToShorten.matches(Regex(URL_REGEX_PATTERN)).not()) {
+    override suspend fun invoke(urlToShorten: String): Result<Unit> =
+        if (urlToShorten.matches(Regex(URL_REGEX_PATTERN)).not()) {
             Result.failure(IllegalArgumentException("Invalid URL"))
         } else {
             urlShortenerRepository.shortenUrl(urlToShorten)
             Result.success(Unit)
         }
-    }
 
     companion object {
         const val URL_REGEX_PATTERN =

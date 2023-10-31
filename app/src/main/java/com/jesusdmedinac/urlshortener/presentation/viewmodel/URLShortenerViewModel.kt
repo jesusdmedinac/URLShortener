@@ -7,11 +7,13 @@ import com.jesusdmedinac.urlshortener.domain.usecase.GetShortenedURLHistoryUseCa
 import com.jesusdmedinac.urlshortener.domain.usecase.ShortenURLUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.container
 import org.orbitmvi.orbit.syntax.simple.intent
+import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
 import javax.inject.Inject
 
@@ -28,6 +30,16 @@ class URLShortenerViewModel @Inject constructor(
 
     override fun shortenURL(urlToShorten: String): Job = intent {
         shortenURLUseCase(urlToShorten)
+            .onFailure { error ->
+                reduce {
+                    state.copy(error = error)
+                }
+            }
+            .onSuccess {
+                reduce {
+                    state.copy(error = null)
+                }
+            }
     }
 
     override fun getShortenedURLHistory(): Job = intent {
@@ -38,17 +50,27 @@ class URLShortenerViewModel @Inject constructor(
                 }
             }
     }
+
+    override fun onShortenedURLClicked(shortenedURL: ShortenedURL) = intent {
+        postSideEffect(URLShortenerSideEffect.OnShortenedURLClicked(shortenedURL))
+        delay(500)
+        postSideEffect(URLShortenerSideEffect.Idle)
+    }
 }
 
 data class URLShortenerState(
     val shortenedURLHistory: List<ShortenedURL> = emptyList(),
+    val error: Throwable? = null,
 )
 
 sealed class URLShortenerSideEffect {
+    data class OnShortenedURLClicked(val shortenedURL: ShortenedURL) : URLShortenerSideEffect()
+
     object Idle : URLShortenerSideEffect()
 }
 
 interface URLShortenerIntents {
     fun shortenURL(urlToShorten: String): Job
     fun getShortenedURLHistory(): Job
+    fun onShortenedURLClicked(shortenedURL: ShortenedURL): Job
 }

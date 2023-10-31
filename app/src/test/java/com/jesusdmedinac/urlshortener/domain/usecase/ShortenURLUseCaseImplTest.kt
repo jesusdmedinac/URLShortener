@@ -26,15 +26,30 @@ class ShortenURLUseCaseImplTest {
     }
 
     @Test
-    fun `invoke should call shortenUrl from urlShortenerRepository`() = runTest {
-        // Given
-        val expectedUrlToShorten = "https://www.google.com"
-        coEvery { urlShortenerRepository.shortenUrl(expectedUrlToShorten) } just runs
+    fun `invoke should call shortenUrl from urlShortenerRepository given urlToShorten is valid url`() =
+        runTest {
+            // Given
+            val urlToShorten = "https://www.google.com"
+            coEvery { urlShortenerRepository.shortenUrl(urlToShorten) } just runs
 
-        // When
-        shortenURLUseCaseImpl.invoke(expectedUrlToShorten)
+            // When
+            shortenURLUseCaseImpl(urlToShorten)
 
-        // Then
-        coVerify { urlShortenerRepository.shortenUrl(expectedUrlToShorten) }
-    }
+            // Then
+            coVerify { urlShortenerRepository.shortenUrl(urlToShorten) }
+        }
+
+    @Test
+    fun `invoke should not call shortenUrl from urlShortenerRepository given urlToShorten is invalid url`() =
+        runTest {
+            // Given
+            val urlToShorten = "invalid url"
+            coEvery { urlShortenerRepository.shortenUrl(urlToShorten) } just runs
+
+            // When
+            shortenURLUseCaseImpl(urlToShorten)
+
+            // Then
+            coVerify(exactly = 0) { urlShortenerRepository.shortenUrl(urlToShorten) }
+        }
 }

@@ -32,7 +32,5 @@ class URLShortenerKtorDataSource @Inject constructor(
 
     companion object {
         const val API_LINK_SHORTEN_URL = "https://url-shortener-server.onrender.com/api/alias"
-        const val URL_REGEX_PATTERN =
-            "^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]"
     }
 }

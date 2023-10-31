@@ -1,5 +1,6 @@
 package com.jesusdmedinac.urlshortener.presentation.ui.compose
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -23,7 +24,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,7 +33,6 @@ import androidx.compose.ui.unit.dp
 import com.jesusdmedinac.urlshortener.domain.model.Links
 import com.jesusdmedinac.urlshortener.domain.model.ShortenedURL
 import com.jesusdmedinac.urlshortener.presentation.viewmodel.URLShortenerIntents
-import com.jesusdmedinac.urlshortener.presentation.viewmodel.URLShortenerSideEffect
 import com.jesusdmedinac.urlshortener.presentation.viewmodel.URLShortenerState
 import com.jesusdmedinac.urlshortener.ui.theme.URLShortenerTheme
 import kotlinx.coroutines.Job
@@ -42,16 +41,13 @@ import kotlinx.coroutines.Job
 @Composable
 fun HomeScreen(
     urlShortenerState: URLShortenerState,
-    urlShortenerSideEffect: URLShortenerSideEffect,
     urlShortenerIntents: URLShortenerIntents,
 ) {
     LaunchedEffect(Unit) {
         urlShortenerIntents.getShortenedURLHistory()
     }
     val homeScreenEngine = HomeScreenEngine(urlShortenerIntents)
-    val homeScreenState by remember {
-        homeScreenEngine.homeScreenState
-    }
+    val homeScreenState by homeScreenEngine.homeScreenState
     Scaffold { paddingValues ->
         Column(
             modifier = Modifier
@@ -102,7 +98,10 @@ fun HomeScreen(
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 16.dp),
+                            .padding(horizontal = 16.dp)
+                            .clickable {
+                                urlShortenerIntents.onShortenedURLClicked(shortenedURL)
+                            },
                     ) {
                         Spacer(modifier = Modifier.size(8.dp))
                         Text(text = shortenedURL.links.self)
@@ -157,13 +156,16 @@ fun HomeScreenPreview() {
                     ),
                 ),
             ),
-            urlShortenerSideEffect = URLShortenerSideEffect.Idle,
             urlShortenerIntents = object : URLShortenerIntents {
                 override fun shortenURL(urlToShorten: String): Job {
                     TODO("Not yet implemented")
                 }
 
                 override fun getShortenedURLHistory(): Job {
+                    TODO("Not yet implemented")
+                }
+
+                override fun onShortenedURLClicked(shortenedURL: ShortenedURL): Job {
                     TODO("Not yet implemented")
                 }
             },

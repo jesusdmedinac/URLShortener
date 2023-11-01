@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.jesusdmedinac.urlshortener.presentation.ui.compose.URLShortenerApp
-import com.jesusdmedinac.urlshortener.ui.theme.URLShortenerTheme
+import com.jesusdmedinac.urlshortener.presentation.ui.theme.URLShortenerTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -11,6 +11,7 @@ import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
+@Suppress("unused") // Used by Hilt
 interface DataModule {
     @Binds
     fun bindURLShortenerLocalDataSource(

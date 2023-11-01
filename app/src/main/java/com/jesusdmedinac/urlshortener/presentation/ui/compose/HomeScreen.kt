@@ -34,7 +34,6 @@ import com.jesusdmedinac.urlshortener.domain.model.Links
 import com.jesusdmedinac.urlshortener.domain.model.ShortenedURL
 import com.jesusdmedinac.urlshortener.presentation.viewmodel.URLShortenerIntents
 import com.jesusdmedinac.urlshortener.presentation.viewmodel.URLShortenerState
-import com.jesusdmedinac.urlshortener.ui.theme.URLShortenerTheme
 import kotlinx.coroutines.Job
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -80,29 +79,27 @@ fun HomeScreen(
 @Preview
 @Suppress("FunctionNaming") // Compose functions naming is upper camel case
 fun HomeScreenPreview() {
-    URLShortenerTheme {
-        HomeScreen(
-            urlShortenerState = URLShortenerState(
-                shortenedURLHistory = listOf(
-                    ShortenedURL(
-                        "",
-                        Links(
-                            self = "https://www.google.com",
-                            short = "https://www.google.com",
-                        ),
+    HomeScreen(
+        urlShortenerState = URLShortenerState(
+            shortenedURLHistory = listOf(
+                ShortenedURL(
+                    "",
+                    Links(
+                        self = "https://www.google.com",
+                        short = "https://www.google.com",
                     ),
-                    ShortenedURL(
-                        "",
-                        Links(
-                            self = "https://www.google.com",
-                            short = "https://www.google.com",
-                        ),
+                ),
+                ShortenedURL(
+                    "",
+                    Links(
+                        self = "https://www.google.com",
+                        short = "https://www.google.com",
                     ),
                 ),
             ),
-            urlShortenerIntents = DefaultURLShortenerIntents,
-        )
-    }
+        ),
+        urlShortenerIntents = DefaultURLShortenerIntents,
+    )
 }
 
 @Composable

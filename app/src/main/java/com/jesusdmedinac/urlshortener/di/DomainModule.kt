@@ -10,6 +10,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
+@Suppress("unused") // Used by Hilt
 interface DomainModule {
     @Binds
     @Singleton

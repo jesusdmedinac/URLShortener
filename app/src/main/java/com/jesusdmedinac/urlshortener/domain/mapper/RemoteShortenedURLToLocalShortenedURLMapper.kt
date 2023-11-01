@@ -6,11 +6,13 @@ import com.jesusdmedinac.urlshortener.data.local.model.ShortenedURL as LocalShor
 import com.jesusdmedinac.urlshortener.data.remote.model.ShortenedURL as RemoteShortenedURL
 
 class RemoteShortenedURLToLocalShortenedURLMapper @Inject constructor() {
-    fun map(input: RemoteShortenedURL): LocalShortenedURL = LocalShortenedURL(
-        input.alias,
-        Links(
-            self = input._links.self,
-            short = input._links.short,
-        ),
-    )
+    fun map(input: RemoteShortenedURL): LocalShortenedURL = with(input) {
+        LocalShortenedURL(
+            alias,
+            Links(
+                self = _links.self,
+                short = _links.short,
+            ),
+        )
+    }
 }

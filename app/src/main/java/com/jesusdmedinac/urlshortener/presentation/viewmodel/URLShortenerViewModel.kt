@@ -8,7 +8,6 @@ import com.jesusdmedinac.urlshortener.domain.usecase.ShortenURLUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collect
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.container
@@ -53,8 +52,12 @@ class URLShortenerViewModel @Inject constructor(
 
     override fun onShortenedURLClicked(shortenedURL: ShortenedURL) = intent {
         postSideEffect(URLShortenerSideEffect.OnShortenedURLClicked(shortenedURL))
-        delay(500)
+        delay(DELAY_TIME_BETWEEN_SIDE_EFFECTS)
         postSideEffect(URLShortenerSideEffect.Idle)
+    }
+
+    companion object {
+        private const val DELAY_TIME_BETWEEN_SIDE_EFFECTS = 500L
     }
 }
 

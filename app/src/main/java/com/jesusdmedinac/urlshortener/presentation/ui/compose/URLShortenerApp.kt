@@ -14,6 +14,7 @@ import com.jesusdmedinac.urlshortener.presentation.viewmodel.URLShortenerSideEff
 import com.jesusdmedinac.urlshortener.presentation.viewmodel.URLShortenerViewModel
 
 @Composable
+@Suppress("FunctionNaming") // Compose functions naming is upper camel case
 fun URLShortenerApp() {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = "home") {
@@ -43,6 +44,7 @@ fun URLShortenerApp() {
 
 @Preview(showBackground = true)
 @Composable
+@Suppress("FunctionNaming") // Compose functions naming is upper camel case
 fun URLShortenerAppPreview() {
     URLShortenerApp()
 }
